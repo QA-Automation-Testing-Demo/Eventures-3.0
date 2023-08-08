@@ -1,0 +1,14 @@
+name: Build and Test
+on: [push, workflow_dispatch]
+jobs:
+  WebApp-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - run: dotnet restore Eventures.WebApp.SeleniumTests
+      - run: dotnet build Eventures.WebApp.SeleniumTests --no-restore
+      - run: dotnet test Eventures.WebApp.SeleniumTests --no-build --verbosity normal
