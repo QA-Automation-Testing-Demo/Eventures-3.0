@@ -26,7 +26,7 @@ namespace Eventures.WebApp.SeleniumTests
             allEventsPageLink.Click();
 
             // Assert the user is redirected to the "All Events" page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.Title.Contains("All Events"));
             Assert.That(driver.PageSource.Contains("<h1>All Events</h1>"));
             Assert.That(driver.PageSource.Contains(@"<a href=""/Events/Create"">Create New</a>"));
@@ -49,7 +49,7 @@ namespace Eventures.WebApp.SeleniumTests
             allEventsLinkItem.Click();
 
             // Assert user is redirected to the "All Events" page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.Title.Contains("All Events"));
             Assert.That(driver.PageSource.Contains("<h1>All Events</h1>"));
             Assert.That(driver.PageSource.Contains(@"<a href=""/Events/Create"">Create New</a>"));
@@ -66,7 +66,7 @@ namespace Eventures.WebApp.SeleniumTests
             createEventPageLink.Click();
 
             // Assert the user is redirected to the "Create Event" page
-            Assert.AreEqual(this.baseUrl + "/Events/Create", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/Create"));
             Assert.That(driver.Title.Contains("Create Event"));
             Assert.That(driver.PageSource.Contains("<h1>Create New Event</h1>"));
             Assert.That(driver.PageSource.Contains(@"<a class=""btn btn-secondary"" href=""/Events/All"">Back to List</a>"));
@@ -89,7 +89,7 @@ namespace Eventures.WebApp.SeleniumTests
             createEventLinkItem.Click();
 
             // Assert the user is redirected to the "Create Event" page
-            Assert.AreEqual(this.baseUrl + "/Events/Create", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/Create"));
             Assert.That(driver.Title.Contains("Create Event"));
             Assert.That(driver.PageSource.Contains("<h1>Create New Event</h1>"));
             Assert.That(driver.PageSource.Contains(@"<a class=""btn btn-secondary"" href=""/Events/All"">Back to List</a>"));
@@ -106,7 +106,7 @@ namespace Eventures.WebApp.SeleniumTests
             driver.FindElement(By.XPath("//a[@href='/Events/All'][contains(.,'Back to List')]")).Click();
 
             // Assert the user is redirected to the "All Events" page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.Title.Contains("All Events"));
             Assert.That(driver.PageSource.Contains("<h1>All Events</h1>"));
         }
@@ -145,7 +145,7 @@ namespace Eventures.WebApp.SeleniumTests
             createButton.Click();
 
             // Assert user is redirected to the "All Events" page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.Title.Contains("All Events"));
             Assert.That(driver.PageSource.Contains("<h1>All Events</h1>"));
 
@@ -157,7 +157,8 @@ namespace Eventures.WebApp.SeleniumTests
             // Assert the new event appears and it has "Delete" and "Edit" buttons
             var eventRow = driver.FindElements(By.TagName("tr"))
                .FirstOrDefault(e => e.Text.Contains(eventName));
-            Assert.IsNotNull(eventRow);
+            Assert.That(eventRow != null, Is.Not.Null);
+            
             Assert.That(eventRow.Text.Contains(eventPlace));
             Assert.That(eventRow.Text.Contains("Delete"));
             Assert.That(eventRow.Text.Contains("Edit"));
@@ -184,11 +185,11 @@ namespace Eventures.WebApp.SeleniumTests
             createButton.Click();
 
             // Assert the user stays on the same page
-            Assert.AreEqual(this.baseUrl + "/Events/Create", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/Create"));
 
             // Assert that an error message appears on the page
             var errorSpan = driver.FindElement(By.Id("Name-error"));
-            Assert.AreEqual("The Name field is required.", errorSpan.Text);
+            Assert.That(errorSpan.Text.Equals("The Name field is required."));
         }
 
         [Test]
@@ -199,13 +200,13 @@ namespace Eventures.WebApp.SeleniumTests
 
             // Assert user is redirected to the "All Events" page
             // The new event should appear on the page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.PageSource.Contains(eventName));
 
             // Get the row with the new event
             var eventRow = driver.FindElements(By.TagName("tr"))
                .FirstOrDefault(e => e.Text.Contains(eventName));
-            Assert.IsNotNull(eventRow);
+            Assert.That(eventRow != null, Is.Not.Null);
 
             // Locate the "Delete" button of the event
             var deleteBtn = driver
@@ -226,7 +227,7 @@ namespace Eventures.WebApp.SeleniumTests
             confirmDeleteButton.Click();
 
             // Assert the user is redirected to the "All Events" page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
 
             // Assert that the event doesn't appear on the page
             Assert.That(!driver.PageSource.Contains(eventName));
@@ -239,13 +240,13 @@ namespace Eventures.WebApp.SeleniumTests
             string eventName = CreateEvent();
 
             // Assert user is redirected to the "All Events" page and the new event appears on the page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.PageSource.Contains(eventName));
 
             // Get the row with the new event
             var eventRow = driver.FindElements(By.TagName("tr"))
                .FirstOrDefault(e => e.Text.Contains(eventName));
-            Assert.IsNotNull(eventRow);
+            Assert.That(eventRow != null, Is.Not.Null);
 
             // Locate the "Edit" button of the event
             var editButton = eventRow
@@ -272,7 +273,7 @@ namespace Eventures.WebApp.SeleniumTests
             confirmEditButton.Click();
 
             // Assert the user is redirected to the "All Events" page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
 
             // Assert that the page contains the new event name and not the old one
             Assert.That(driver.PageSource.Contains(changedName));
@@ -286,13 +287,13 @@ namespace Eventures.WebApp.SeleniumTests
             string eventName = CreateEvent();
 
             // Assert the user is redirected to the "All Events" page and the new event appears on the page
-            Assert.AreEqual(this.baseUrl + "/Events/All", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.PageSource.Contains(eventName));
 
             // Get the row with the new event
             var eventRow = driver.FindElements(By.TagName("tr"))
                .FirstOrDefault(e => e.Text.Contains(eventName));
-            Assert.IsNotNull(eventRow);
+            Assert.That(eventRow != null, Is.Not.Null);
 
             // Locate the "Edit" button of the event
             var editButton = driver.FindElement(By.XPath($"//tr//td[contains(text(), '{eventName}')]/..//a[contains(.,'Edit')]"));
@@ -320,7 +321,7 @@ namespace Eventures.WebApp.SeleniumTests
 
             // Assert an error message appears on the page
             var errorSpan = driver.FindElement(By.Id("Name-error"));
-            Assert.AreEqual("The Name field is required.", errorSpan.Text);
+            Assert.That(errorSpan.Text.Equals("The Name field is required."));
         }
 
         private void RegisterUserForTesting()
@@ -337,7 +338,7 @@ namespace Eventures.WebApp.SeleniumTests
                 .XPath("//button[@type='submit'][contains(.,'Register')]"))
                 .Click();
 
-            Assert.AreEqual(this.baseUrl + "/", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/"));
             Assert.That(driver.PageSource.Contains($"Welcome, {username}"));
         }
 

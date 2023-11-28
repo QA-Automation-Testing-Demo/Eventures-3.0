@@ -25,7 +25,7 @@ namespace Eventures.WebApp.SeleniumTests
                 .Click();
 
             // Assert the user is redirected to the "Home" page and is logged in
-            Assert.AreEqual(this.baseUrl + "/", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/"));
             Assert.That(driver.PageSource.Contains($"Welcome, {username}"));
         }
 
@@ -45,7 +45,7 @@ namespace Eventures.WebApp.SeleniumTests
                 .Click();
 
             // Assert user is redirected to the "Home" page and is logged in
-            Assert.AreEqual(this.baseUrl + "/", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/"));
             Assert.That(driver.PageSource.Contains($"Welcome, {username}"));
         }
 
@@ -61,7 +61,7 @@ namespace Eventures.WebApp.SeleniumTests
                 .Click();
 
             // Assert user is redirected to the "Home" page and is logged out
-            Assert.AreEqual(this.baseUrl + "/", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/"));
             Assert.That(driver.PageSource.Contains("Eventures: Events and Tickets"));
         }
 
@@ -77,7 +77,7 @@ namespace Eventures.WebApp.SeleniumTests
                 .Click();
             
             // Assert the user is redirected to the "Log in" page
-            Assert.AreEqual(this.baseUrl + "/Identity/Account/Login", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Identity/Account/Login"));
             Assert.That(driver.Title.Contains("Log in"));
             Assert.That(driver.PageSource.Contains("Log in"));
             Assert.That(driver.PageSource.Contains("Use a local account to log in"));
@@ -95,7 +95,7 @@ namespace Eventures.WebApp.SeleniumTests
                 .Click();
 
             // Assert user is redirected to the "Log in" page
-            Assert.AreEqual(this.baseUrl + "/Identity/Account/Login", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Identity/Account/Login"));
             Assert.That(driver.Title.Contains("Log in"));
             Assert.That(driver.PageSource.Contains("Log in"));
             Assert.That(driver.PageSource.Contains("Use a local account to log in"));
@@ -111,7 +111,7 @@ namespace Eventures.WebApp.SeleniumTests
             driver.FindElement(By.XPath("(//a[@href='/Identity/Account/Register'])[1]")).Click();
 
             // Assert the user is redirected to the "Register" page
-            Assert.AreEqual(this.baseUrl + "/Identity/Account/Register", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Identity/Account/Register"));
             Assert.That(driver.Title.Contains("Register"));
             Assert.That(driver.PageSource.Contains("Register"));
             Assert.That(driver.PageSource.Contains("Create a new account"));
@@ -127,7 +127,7 @@ namespace Eventures.WebApp.SeleniumTests
             driver.FindElement(By.XPath("(//a[@href='/Identity/Account/Register'])[2]")).Click();
 
             // Assert the user is redirected to the "Register" page
-            Assert.AreEqual(this.baseUrl + "/Identity/Account/Register", driver.Url);
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Identity/Account/Register"));
             Assert.That(driver.Title.Contains("Register"));
             Assert.That(driver.PageSource.Contains("Register"));
             Assert.That(driver.PageSource.Contains("Create a new account"));
