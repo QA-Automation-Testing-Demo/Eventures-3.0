@@ -19,11 +19,11 @@ namespace Eventures.WebApp.SeleniumTests
         {
             // Arrange: go to the "Home" page and locate the link to the "All Events" page
             driver.Navigate().GoToUrl(this.baseUrl);
-            var allEventsPageLink = driver.FindElement(
-                By.XPath("//a[@href='/Events/All'][contains(.,'all events')]"));
-
-            // Act: click on the link
-            allEventsPageLink.Click();
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+var allEventsLink = wait.Until(driver => 
+    driver.FindElement(By.XPath("//a[@href='/Events/All'][contains(.,'all events')]"))
+);
+allEventsLink.Click();
 
             // Assert the user is redirected to the "All Events" page
             Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
@@ -242,7 +242,9 @@ Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             string eventName = CreateEvent();
 
             // Assert user is redirected to the "All Events" page and the new event appears on the page
-            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.Url.Equals(this.baseUrl + "/Events/All"));
+Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             Assert.That(driver.PageSource.Contains(eventName));
 
             // Get the row with the new event
@@ -292,7 +294,9 @@ Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             string eventName = CreateEvent();
 
             // Assert the user is redirected to the "All Events" page and the new event appears on the page
-            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.Url.Equals(this.baseUrl + "/Events/All"));
+Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             Assert.That(driver.PageSource.Contains(eventName));
 
             // Get the row with the new event
