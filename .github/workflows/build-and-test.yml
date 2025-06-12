@@ -8,7 +8,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '17.x'
       - run: dotnet restore Eventures.WebApp.SeleniumTests
       - run: dotnet build Eventures.WebApp.SeleniumTests --no-restore
       - run: dotnet test Eventures.WebApp.SeleniumTests --no-build --verbosity normal
