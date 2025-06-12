@@ -203,6 +203,8 @@ Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             // Assert user is redirected to the "All Events" page
             // The new event should appear on the page
           
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.PageSource.Contains(eventName));
             Assert.That(driver.PageSource.Contains(eventName));
 
             // Get the row with the new event
