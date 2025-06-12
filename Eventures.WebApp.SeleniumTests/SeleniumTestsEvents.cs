@@ -145,7 +145,9 @@ allEventsLink.Click();
             createButton.Click();
 
             // Assert user is redirected to the "All Events" page
-            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.Url.Equals(this.baseUrl + "/Events/All"));
+Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             Assert.That(driver.Title.Contains("All Events"));
             Assert.That(driver.PageSource.Contains("<h1>All Events</h1>"));
 
@@ -200,9 +202,7 @@ allEventsLink.Click();
 
             // Assert user is redirected to the "All Events" page
             // The new event should appear on the page
-           var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-wait.Until(driver => driver.Url.Equals(this.baseUrl + "/Events/All"));
-Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
+          
             Assert.That(driver.PageSource.Contains(eventName));
 
             // Get the row with the new event
