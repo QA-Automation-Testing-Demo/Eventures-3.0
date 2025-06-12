@@ -29,7 +29,7 @@ namespace Eventures.WebApp.SeleniumTests
 
             // Setup the ChromeDriver
             var chromeOptions = new ChromeOptions();
-            chromeOption.AddArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
+            chromeOptions.AddArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
             this.driver = new ChromeDriver(chromeOptions);
 
             // Set an implicit wait for the UI interaction
