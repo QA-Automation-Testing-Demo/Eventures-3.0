@@ -1,8 +1,8 @@
-using System;
-using System.Linq;
-
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using System;
+using System.Linq;
 
 namespace Eventures.WebApp.SeleniumTests
 {
@@ -271,6 +271,9 @@ namespace Eventures.WebApp.SeleniumTests
 
             // Click on the new "Edit" button to confirm edition
             confirmEditButton.Click();
+
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.Url.Contains("/Events/All"));
 
             // Assert the user is redirected to the "All Events" page
             Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
