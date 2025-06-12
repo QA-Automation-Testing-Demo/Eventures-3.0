@@ -96,6 +96,9 @@ namespace Eventures.WebApp.SeleniumTests
             driver.FindElement(By.Id("Place")).SendKeys("Beach");
             driver.FindElement(By.Id("TotalTickets")).SendKeys("100");
             driver.FindElement(By.Id("PricePerTicket")).SendKeys("10.00");
+            driver.FindElement(By.Id("Start")).SendKeys("2026-01-01");
+            driver.FindElement(By.Id("End")).SendKeys("2026-01-02");
+
 
             driver.FindElement(By.XPath("//input[contains(@value,'Create')]")).Click();
 
