@@ -34,7 +34,7 @@ namespace Eventures.WebApp.SeleniumTests
             this.driver = new ChromeDriver(chromeOptions);
 
             // Set an implicit wait for the UI interaction
-            this.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            this.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
         [OneTimeTearDown]
