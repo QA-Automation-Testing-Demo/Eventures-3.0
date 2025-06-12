@@ -41,34 +41,13 @@ namespace Eventures.WebApp.SeleniumTests
             this.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
-protected void WaitUntilUrlContains(string fragment, int seconds = 10)
-{
-    new WebDriverWait(driver, TimeSpan.FromSeconds(seconds))
-        .Until(d => d.Url.ToLower().Contains(fragment.ToLower()));
-}
-
-protected void TakeScreenshot(string name)
-{
-    var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
-    screenshot.SaveAsFile($"screenshot-{name}.png", ScreenshotImageFormat.Png);
-}
-
-
-        
-        [OneTimeTearDown]
-        public void OneTimeTearDownBase()
-        {
-            driver.Quit();
-            this.testEventuresApp.Dispose();
-        }
-
         /// <summary>
-        /// Waits for the current URL to contain the given fragment.
+        /// Waits for the current URL to contain the given fragment (case-insensitive).
         /// </summary>
-        protected void WaitUntilUrlContains(string fragment, int seconds = 5)
+        protected void WaitUntilUrlContains(string fragment, int seconds = 10)
         {
             new WebDriverWait(driver, TimeSpan.FromSeconds(seconds))
-                .Until(d => d.Url.Contains(fragment));
+                .Until(d => d.Url.ToLower().Contains(fragment.ToLower()));
         }
 
         /// <summary>
@@ -78,6 +57,22 @@ protected void TakeScreenshot(string name)
         {
             new WebDriverWait(driver, TimeSpan.FromSeconds(seconds))
                 .Until(d => d.Title.Contains(titlePart));
+        }
+
+        /// <summary>
+        /// Takes a screenshot with a given name (saves in the working directory).
+        /// </summary>
+        protected void TakeScreenshot(string name)
+        {
+            var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+            screenshot.SaveAsFile($"screenshot-{name}.png", ScreenshotImageFormat.Png);
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDownBase()
+        {
+            driver.Quit();
+            this.testEventuresApp.Dispose();
         }
     }
 }
