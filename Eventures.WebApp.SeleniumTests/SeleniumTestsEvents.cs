@@ -1,4 +1,4 @@
-using NUnit.Framework;
+Fusing NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -276,7 +276,7 @@ Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             // Click on the new "Edit" button to confirm edition
             confirmEditButton.Click();
 
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            
             wait.Until(driver => driver.Url.Contains("/Events/All"));
 
             // Assert the user is redirected to the "All Events" page
