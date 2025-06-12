@@ -1,11 +1,13 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 
 using Eventures.Tests.Common;
 
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace Eventures.WebApp.SeleniumTests
 {
@@ -29,11 +31,23 @@ namespace Eventures.WebApp.SeleniumTests
 
             // Setup the ChromeDriver
             var chromeOptions = new ChromeOptions();
-            if (!Debugger.IsAttached)
-                chromeOptions.AddArguments("headless");
+
+            // Fix for GitHub Actions: Headless only in CI
+            if (Environment.GetEnvironmentVariable("CI") == "true" && !Debugger.IsAttached)
+            {
+                chromeOptions.AddArgument("--headless=new");
+                chromeOptions.AddArgument("--no-sandbox");
+                chromeOptions.AddArgument("--disable-dev-shm-usage");
+                chromeOptions.AddArgument("--disable-gpu");
+            }
+
+            // Always use a unique temporary profile directory
+            var tempProfileDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            chromeOptions.AddArguments($"--user-data-dir={tempProfileDir}");
+
             this.driver = new ChromeDriver(chromeOptions);
 
-            // Set an implicit wait for the UI interaction
+            // Set a longer implicit wait for CI flakiness
             this.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
