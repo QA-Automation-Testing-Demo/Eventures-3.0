@@ -1,12 +1,8 @@
 using System;
 using System.Linq;
+
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System.Diagnostics;
-using Eventures.Tests.Common;
-using OpenQA.Selenium.Chrome;
 
 namespace Eventures.WebApp.SeleniumTests
 {
@@ -115,51 +111,58 @@ namespace Eventures.WebApp.SeleniumTests
             Assert.That(driver.PageSource.Contains("<h1>All Events</h1>"));
         }
 
-       [Test]
-public void Test_CreateEventPage_CreateEvent_ValidData()
-{
-    // Arrange: go to the "Create Event" page
-    var createEventUrl = new Uri(new Uri(baseUrl), "/Events/Create").ToString();
-    driver.Navigate().GoToUrl(createEventUrl);
-    Assert.That(driver.Title, Does.Contain("Create Event"));
+        [Test]
+        public void Test_CreateEventPage_CreateEvent_ValidData()
+        {
+            // Arrange: go to the "Create Event" page
+            driver.Navigate().GoToUrl(this.baseUrl + "/Events/Create");
+            Assert.That(driver.Title.Contains("Create Event"));
 
-    // Locate fields and fill them in with event data
-    var eventName = "Party" + DateTime.Now.Ticks;
-    driver.FindElement(By.Id("Name")).SendKeys(eventName);
-    driver.FindElement(By.Id("Place")).SendKeys("Beach");
-    driver.FindElement(By.Id("TotalTickets")).SendKeys("100");
-    driver.FindElement(By.Id("PricePerTicket")).SendKeys("10.00");
+            // Locate fields and fill them in with event data
+            var eventName = "Party" + DateTime.Now.Ticks;
+            var nameField = driver.FindElement(By.Id("Name"));
+            nameField.Clear();
+            nameField.SendKeys(eventName);
 
-    // Locate and click the "Create" button
-    driver.FindElement(By.XPath("//input[contains(@value,'Create')]")).Click();
+            var eventPlace = "Beach";
+            var placeField = driver.FindElement(By.Id("Place"));
+            placeField.Clear();
+            placeField.SendKeys(eventPlace);
 
-    // Wait for redirection to "All Events" page
-    var wait = new OpenQA.Selenium.Support.UI.WebDriverWait(driver, TimeSpan.FromSeconds(5));
-    wait.Until(d => d.Url.Contains("/Events/All"));
+            var totalTicketsField = driver.FindElement(By.Id("TotalTickets"));
+            totalTicketsField.Clear();
+            totalTicketsField.SendKeys("100");
 
-    // Assert user is redirected to the "All Events" page
-    Assert.That(driver.Url, Does.Contain("/Events/All"));
-    Assert.That(driver.Title, Does.Contain("All Events"));
-    Assert.That(driver.PageSource, Does.Contain("<h1>All Events</h1>"));
+            var priceField = driver.FindElement(By.Id("PricePerTicket"));
+            priceField.Clear();
+            priceField.SendKeys("10.00");
 
-    // Assert the new event appears on the page
-    Assert.That(driver.PageSource, Does.Contain(eventName));
-    Assert.That(driver.PageSource, Does.Contain("Beach"));
-    Assert.That(driver.PageSource, Does.Contain(username));
+            // Locate the "Create" button
+            var createButton = driver
+                .FindElement(By.XPath("//input[contains(@value,'Create')]"));
 
-    // Assert the new event appears and it has "Delete" and "Edit" buttons
-    var eventRow = driver.FindElements(By.TagName("tr"))
-       .FirstOrDefault(e => e.Text.Contains(eventName));
-    Assert.That(eventRow, Is.Not.Null, "Event row not found");
+            // Click on the button
+            createButton.Click();
 
-    Assert.Multiple(() =>
-    {
-        Assert.That(eventRow.Text, Does.Contain("Beach"));
-        Assert.That(eventRow.Text, Does.Contain("Delete"));
-        Assert.That(eventRow.Text, Does.Contain("Edit"));
-    });
-}
+            // Assert user is redirected to the "All Events" page
+            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
+            Assert.That(driver.Title.Contains("All Events"));
+            Assert.That(driver.PageSource.Contains("<h1>All Events</h1>"));
 
+            // Assert the new event appears on the page
+            Assert.That(driver.PageSource.Contains(eventName));
+            Assert.That(driver.PageSource.Contains(eventPlace));
+            Assert.That(driver.PageSource.Contains(username));
+
+            // Assert the new event appears and it has "Delete" and "Edit" buttons
+            var eventRow = driver.FindElements(By.TagName("tr"))
+               .FirstOrDefault(e => e.Text.Contains(eventName));
+            Assert.That(eventRow != null, Is.Not.Null);
+            
+            Assert.That(eventRow.Text.Contains(eventPlace));
+            Assert.That(eventRow.Text.Contains("Delete"));
+            Assert.That(eventRow.Text.Contains("Edit"));
+        }
 
         [Test]
         public void Test_CreateEventPage_CreateEvent_InvalidData()
