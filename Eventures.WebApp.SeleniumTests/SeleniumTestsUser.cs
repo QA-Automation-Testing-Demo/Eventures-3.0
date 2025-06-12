@@ -45,7 +45,9 @@ namespace Eventures.WebApp.SeleniumTests
                 .Click();
 
             // Assert user is redirected to the "Home" page and is logged in
-            Assert.That(driver.Url.Equals(this.baseUrl + "/"));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.Url.Equals(this.baseUrl + "/"));
+Assert.That(driver.Url.Equals(this.baseUrl + "/"), Is.True);
             Assert.That(driver.PageSource.Contains($"Welcome, {username}"));
         }
 
