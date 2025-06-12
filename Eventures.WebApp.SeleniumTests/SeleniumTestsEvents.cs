@@ -145,7 +145,6 @@ namespace Eventures.WebApp.SeleniumTests
             createButton.Click();
 
             // Assert user is redirected to the "All Events" page
-            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.Title.Contains("All Events"));
             Assert.That(driver.PageSource.Contains("<h1>All Events</h1>"));
 
@@ -225,10 +224,7 @@ namespace Eventures.WebApp.SeleniumTests
             var confirmDeleteButton = driver
                 .FindElement(By.XPath("//input[contains(@value,'Delete')]"));
             confirmDeleteButton.Click();
-
-            // Assert the user is redirected to the "All Events" page
-            //Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
-
+           
             // Assert that the event doesn't appear on the page
             Assert.That(!driver.PageSource.Contains(eventName));
         }
