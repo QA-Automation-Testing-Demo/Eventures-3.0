@@ -200,7 +200,9 @@ namespace Eventures.WebApp.SeleniumTests
 
             // Assert user is redirected to the "All Events" page
             // The new event should appear on the page
-            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
+           var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.Url.Equals(this.baseUrl + "/Events/All"));
+Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             Assert.That(driver.PageSource.Contains(eventName));
 
             // Get the row with the new event
