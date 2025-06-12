@@ -22,7 +22,7 @@ namespace Eventures.WebApp.SeleniumTests
 
             allEventsPageLink.Click();
 
-            StringAssert.Contains("/Events/All", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/All"));
             Assert.That(driver.Title, Does.Contain("All Events"));
             Assert.That(driver.PageSource, Does.Contain("<h1>All Events</h1>"));
             Assert.That(driver.PageSource, Does.Contain("Create New"));
@@ -36,7 +36,7 @@ namespace Eventures.WebApp.SeleniumTests
             var dropdownItems = driver.FindElements(By.XPath("//a[@class='dropdown-item']"));
             dropdownItems[0].Click();
 
-            StringAssert.Contains("/Events/All", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/All"));
             Assert.That(driver.Title, Does.Contain("All Events"));
             Assert.That(driver.PageSource, Does.Contain("<h1>All Events</h1>"));
             Assert.That(driver.PageSource, Does.Contain("Create New"));
@@ -51,7 +51,7 @@ namespace Eventures.WebApp.SeleniumTests
 
             createEventPageLink.Click();
 
-            StringAssert.Contains("/Events/Create", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/Create"));
             Assert.That(driver.Title, Does.Contain("Create Event"));
             Assert.That(driver.PageSource, Does.Contain("<h1>Create New Event</h1>"));
             Assert.That(driver.PageSource, Does.Contain("Back to List"));
@@ -65,7 +65,7 @@ namespace Eventures.WebApp.SeleniumTests
             var dropdownItems = driver.FindElements(By.XPath("//a[@class='dropdown-item']"));
             dropdownItems[1].Click();
 
-            StringAssert.Contains("/Events/Create", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/Create"));
             Assert.That(driver.Title, Does.Contain("Create Event"));
             Assert.That(driver.PageSource, Does.Contain("<h1>Create New Event</h1>"));
             Assert.That(driver.PageSource, Does.Contain("Back to List"));
@@ -79,7 +79,7 @@ namespace Eventures.WebApp.SeleniumTests
 
             driver.FindElement(By.XPath("//a[@href='/Events/All'][contains(.,'Back to List')]")).Click();
 
-            StringAssert.Contains("/Events/All", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/All"));
             Assert.That(driver.Title, Does.Contain("All Events"));
             Assert.That(driver.PageSource, Does.Contain("<h1>All Events</h1>"));
         }
@@ -119,7 +119,7 @@ namespace Eventures.WebApp.SeleniumTests
             driver.FindElement(By.Id("Name")).SendKeys("");
             driver.FindElement(By.XPath("//input[contains(@value,'Create')]")).Click();
 
-            StringAssert.Contains("/Events/Create", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/Create"));
             var errorSpan = driver.FindElement(By.Id("Name-error"));
             Assert.That(errorSpan.Text, Is.EqualTo("The Name field is required."));
         }
@@ -129,13 +129,13 @@ namespace Eventures.WebApp.SeleniumTests
         {
             var eventName = CreateEvent();
 
-            StringAssert.Contains("/Events/All", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/All"));
             Assert.That(driver.PageSource, Does.Contain(eventName));
 
             var deleteBtn = driver.FindElement(By.XPath($"//tr//td[contains(text(), '{eventName}')]/..//a[contains(.,'Delete')]"));
             deleteBtn.Click();
 
-            StringAssert.Contains("/Events/Delete/", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/Delete/"));
             Assert.That(driver.Title, Does.Contain("Delete Event"));
             Assert.That(driver.PageSource, Does.Contain(eventName));
 
@@ -148,13 +148,13 @@ namespace Eventures.WebApp.SeleniumTests
         public void Test_EditEvent_ValidData()
         {
             var eventName = CreateEvent();
-            StringAssert.Contains("/Events/All", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/All"));
             Assert.That(driver.PageSource, Does.Contain(eventName));
 
             var editButton = driver.FindElement(By.XPath($"//tr//td[contains(text(), '{eventName}')]/..//a[contains(.,'Edit')]"));
             editButton.Click();
 
-            StringAssert.Contains("/Events/Edit/", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/Edit/"));
             Assert.That(driver.Title, Does.Contain("Edit Event"));
 
             var changedName = "Best Best Show" + DateTime.Now.Ticks;
@@ -164,7 +164,7 @@ namespace Eventures.WebApp.SeleniumTests
 
             driver.FindElement(By.XPath("//input[contains(@value,'Edit')]")).Click();
 
-            StringAssert.Contains("/Events/All", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/All"));
             Assert.That(driver.PageSource, Does.Contain(changedName));
             Assert.That(driver.PageSource.Contains(eventName), Is.False);
         }
@@ -173,13 +173,13 @@ namespace Eventures.WebApp.SeleniumTests
         public void Test_EditEvent_InvalidData()
         {
             var eventName = CreateEvent();
-            StringAssert.Contains("/Events/All", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/All"));
             Assert.That(driver.PageSource, Does.Contain(eventName));
 
             var editButton = driver.FindElement(By.XPath($"//tr//td[contains(text(), '{eventName}')]/..//a[contains(.,'Edit')]"));
             editButton.Click();
 
-            StringAssert.Contains("/Events/Edit/", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/Edit/"));
             Assert.That(driver.Title, Does.Contain("Edit Event"));
 
             var nameField = driver.FindElement(By.Id("Name"));
@@ -188,7 +188,7 @@ namespace Eventures.WebApp.SeleniumTests
 
             driver.FindElement(By.XPath("//input[contains(@value,'Edit')]")).Click();
 
-            StringAssert.Contains("/Events/Edit/", driver.Url);
+            Assert.That(driver.Url, Does.Contain("/Events/Edit/"));
             var errorSpan = driver.FindElement(By.Id("Name-error"));
             Assert.That(errorSpan.Text, Is.EqualTo("The Name field is required."));
         }
@@ -206,7 +206,7 @@ namespace Eventures.WebApp.SeleniumTests
 
             driver.FindElement(By.XPath("//button[@type='submit'][contains(.,'Register')]")).Click();
 
-            StringAssert.EndsWith("/", driver.Url);
+            Assert.That(driver.Url, Does.EndWith("/"));
             Assert.That(driver.PageSource, Does.Contain($"Welcome, {username}"));
         }
 
