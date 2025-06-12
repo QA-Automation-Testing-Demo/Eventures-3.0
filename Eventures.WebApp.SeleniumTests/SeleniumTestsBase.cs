@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 
+
 using Eventures.Tests.Common;
 
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace Eventures.WebApp.SeleniumTests
 {
