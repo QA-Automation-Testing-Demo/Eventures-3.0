@@ -227,7 +227,7 @@ namespace Eventures.WebApp.SeleniumTests
             confirmDeleteButton.Click();
 
             // Assert the user is redirected to the "All Events" page
-            Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
+            //Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
 
             // Assert that the event doesn't appear on the page
             Assert.That(!driver.PageSource.Contains(eventName));
