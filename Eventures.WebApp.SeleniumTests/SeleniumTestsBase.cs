@@ -41,6 +41,20 @@ namespace Eventures.WebApp.SeleniumTests
             this.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
+protected void WaitUntilUrlContains(string fragment, int seconds = 10)
+{
+    new WebDriverWait(driver, TimeSpan.FromSeconds(seconds))
+        .Until(d => d.Url.ToLower().Contains(fragment.ToLower()));
+}
+
+protected void TakeScreenshot(string name)
+{
+    var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+    screenshot.SaveAsFile($"screenshot-{name}.png", ScreenshotImageFormat.Png);
+}
+
+
+        
         [OneTimeTearDown]
         public void OneTimeTearDownBase()
         {
