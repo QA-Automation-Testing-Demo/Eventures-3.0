@@ -144,9 +144,6 @@ namespace Eventures.WebApp.SeleniumTests
             // Click on the button
             createButton.Click();
 
-            new WebDriverWait(driver, TimeSpan.FromSeconds(5))
-        .Until(d => d.Url.Contains("/Events/All"));
-
             // Assert user is redirected to the "All Events" page
             Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"));
             Assert.That(driver.Title.Contains("All Events"));
