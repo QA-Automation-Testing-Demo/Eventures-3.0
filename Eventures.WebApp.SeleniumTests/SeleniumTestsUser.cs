@@ -28,7 +28,9 @@ namespace Eventures.WebApp.SeleniumTests
                 .Click();
 
             // Assert the user is redirected to the "Home" page and is logged in
-            Assert.That(driver.Url.Equals(this.baseUrl + "/"));
+           var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.Url.Equals(this.baseUrl + "/"));
+Assert.That(driver.Url.Equals(this.baseUrl + "/"), Is.True);
             Assert.That(driver.PageSource.Contains($"Welcome, {username}"));
         }
 
@@ -66,9 +68,10 @@ Assert.That(driver.Url.Equals(this.baseUrl + "/"), Is.True);
                 .Click();
 
             // Assert user is redirected to the "Home" page and is logged out
-            Assert.That(driver.Url.Equals(this.baseUrl + "/"));
-            Assert.That(driver.PageSource.Contains("Eventures: Events and Tickets"));
-        }
+           var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.PageSource.Contains("Eventures: Events and Tickets"));
+Assert.That(driver.PageSource.Contains("Eventures: Events and Tickets"), Is.True);
+                   }
 
         [Test]
         public void Test_HomePage_LoginPageLink_InNavigation()
