@@ -229,7 +229,8 @@ Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
             confirmDeleteButton.Click();
 
             // Assert the user is redirected to the "All Events" page
-           wait.Until(driver => driver.Url.Equals(this.baseUrl + "/Events/All"));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+wait.Until(driver => driver.Url.Equals(this.baseUrl + "/Events/All"));
 Assert.That(driver.Url.Equals(this.baseUrl + "/Events/All"), Is.True);
 
             // Assert that the event doesn't appear on the page
