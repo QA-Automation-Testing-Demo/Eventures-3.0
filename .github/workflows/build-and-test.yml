@@ -1,14 +1,33 @@
 name: Build and Test
 on: [push, workflow_dispatch]
+
 jobs:
   WebApp-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
         with:
-          node-version: '16.x'
-      - run: dotnet restore Eventures.WebApp.SeleniumTests
-      - run: dotnet build Eventures.WebApp.SeleniumTests --no-restore
-      - run: dotnet test Eventures.WebApp.SeleniumTests --no-build --verbosity normal
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore Eventures.WebApp.SeleniumTests
+
+      - name: Build project
+        run: dotnet build Eventures.WebApp.SeleniumTests --no-restore
+
+      - name: Start web app
+        run: dotnet run --project Eventures.WebApp --urls "http://localhost:5000" &
+      
+      - name: Wait for server to start
+        run: |
+          echo "Waiting for app..."
+          sleep 10
+          curl --fail http://localhost:5000 || (echo "Server not responding" && exit 1)
+
+      - name: Run tests
+        run: dotnet test Eventures.WebApp.SeleniumTests --no-build --verbosity normal
+
